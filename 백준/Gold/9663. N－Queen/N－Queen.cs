@@ -8,7 +8,7 @@ namespace Alroghtim_CS
 	{
 		static int N;
 		static int answer = 0;
-		static HashSet<(int, int)> pos = new HashSet<(int, int)>();
+		static List<(int, int)> pos = new List<(int, int)>();
 
 		static bool CanReachDestination(int ay, int ax, int by, int bx)
 		{
@@ -47,14 +47,14 @@ namespace Alroghtim_CS
 
 				pos.Add((y, x));
 				Search(y + 1);
-				pos.Remove((y, x));
+				pos.RemoveAt(pos.Count-1);
 			}
 		}
 
 
 		static void Main(string[] args)
 		{
-			pos = new HashSet<(int, int)>();
+			pos = new List<(int, int)>();
 			answer = 0;
 			N = int.Parse(Console.ReadLine());
 
