@@ -20,38 +20,27 @@ public class Solution
             string userA = users[0];
             string userB = users[1];
             
-            if (logs.TryGetValue(userB, out HashSet<string> h))
+            if (!logs.TryGetValue(userB, out HashSet<string> h))
             {
-                // 신고한 사람 등록
-                h.Add(userA);
-                continue;
+                h = new HashSet<string>();
+                logs.Add(userB, h);
             }
-            h = new HashSet<string>();
-            h.Add(userA);
-            logs.Add(userB, h);
+            
+            logs[userB].Add(userA);
         }
         
         
         foreach (var log in logs)
         {
-            if (log.Value.Count >= k)
+            if (log.Value.Count < k)
+                continue;
+            
+            foreach (var user in log.Value)
             {
-                foreach (var user in log.Value)
-                {
-                    answer[names[user]]++;   
-                }
+                answer[names[user]]++;   
             }
         }
     
-        
-            
-        
-        
-        // 신고한적이 있는지?
-        // 신고당한 횟수를 저장
-        
-        
-        
         return answer;
     }
 }
