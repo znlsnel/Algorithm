@@ -2,92 +2,86 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public class PriorityQueue
+
+
+public class Solution 
 {
-    public void Add(int num)
+    public void QuickSort(int[] arr, int l, int r)
     {
-        arr[size++] = num;
-        int cur = size-1;
+        if (l >= r)
+            return;
         
-        while (cur > 0)
-        {
-            int parent = (cur -1) / 2;
-            if (Comp(arr[cur], arr[parent]))
-            {
-                int temp = arr[cur];
-                arr[cur] = arr[parent];
-                arr[parent] = temp;
-                cur = parent;
-            }
-            else
-                break;
-        }
+        int pivot = Partition(arr, l, r);
+                
+        QuickSort(arr, l, pivot - 1);
+        QuickSort(arr, pivot + 1, r);
     }
     
-    public int Pop()
+
+    private int Partition(int[] arr, int l, int r)
     {
-        int ret = arr[0];
-        arr[0] = arr[--size];
-        
-        int cur = 0;
-        while (cur < size)
+        int p = arr[l]; // 피벗 값 (첫 번째 요소)
+        int i = l + 1;  // 왼쪽에서 시작하는 포인터
+        int j = r;      // 오른쪽에서 시작하는 포인터
+
+        while (true)
         {
-            int left = cur * 2 + 1;
-            int right = left+1;
-            
-            if (left >= size)
+            // 피벗보다 큰 요소 찾기 (i 증가)
+            while (i <= j && Comp(arr[i], p))
+                i++;
+
+            // 피벗보다 작거나 같은 요소 찾기 (j 감소)
+            while (i <= j && Comp(p, arr[j]))
+                j--;
+
+            // 포인터가 교차하면 루프 종료
+            if (i > j)
                 break;
-            
-            if (right < size && Comp(arr[right], arr[left]))
-                left = right;
-                
-            if (Comp(arr[left], arr[cur]))
-            {
-                int temp = arr[cur];
-                arr[cur] = arr[left];
-                arr[left] = temp;
-                cur = left;
-            }
-            else
-                break;
+
+            // arr[i]와 arr[j] 교환
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+
+            i++;
+            j--;
         }
-        return ret;
+
+        // 피벗을 올바른 위치로 이동
+        int pivotTemp = arr[l];
+        arr[l] = arr[j];
+        arr[j] = pivotTemp;
+
+        // 피벗의 최종 위치 반환
+        return j;
     }
+    
     
     private bool Comp(int a, int b)
-    {        
+    {
         int A = int.Parse(a.ToString() + b.ToString());
         int B = int.Parse(b.ToString() + a.ToString());
         
         return A > B;
     }
     
-    public bool isEmpty => size == 0;
-    
-    int size = 0;
-    int[] arr = new int[200001];
-}
-
-public class Solution 
-{
     public string solution(int[] numbers) 
     {
-        StringBuilder sb = new StringBuilder();
-        PriorityQueue pq = new PriorityQueue();
+       // StringBuilder sb = new StringBuilder();
+        QuickSort(numbers, 0, numbers.Length-1);
+        
         string answer = "";
         
-        foreach (int n in numbers)
-            pq.Add(n); 
+       // foreach (int num in numbers)
+       //     sb.Append(num.ToString());
         
-        while (!pq.isEmpty)
-            sb.Append(pq.Pop().ToString());
+        answer = string.Join(string.Empty, numbers);
         
-        answer = sb.ToString();
-
-        foreach (var item in answer)
-            if (item != '0')
+        foreach (char c in answer)
+        {
+            if (c != '0')
                 return answer;
-        
+        }
         
         return "0";
     }
