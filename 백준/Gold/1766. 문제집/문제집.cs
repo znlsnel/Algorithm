@@ -75,9 +75,6 @@ namespace Alroghtim_CS
 
 	class Program
 	{
-		static int N;
-		static int M;
-
 		static void Main(string[] args)
 		{
 			string[] input = Console.ReadLine().Split(' ');
@@ -85,9 +82,9 @@ namespace Alroghtim_CS
 			int M = int.Parse(input[1]);
 
 			int[] inDegree = new int[N + 1];
-			List<int>[] outDegree = new List<int>[N + 1];
+			List<int>[] outVtx = new List<int>[N + 1];
 			for (int i = 1; i <= N; i++)
-				outDegree[i] = new List<int>();
+				outVtx[i] = new List<int>();
 
 
 			for (int i = 0; i < M; i++)
@@ -97,7 +94,7 @@ namespace Alroghtim_CS
 				int B = int.Parse(input[1]);
 
 				inDegree[B]++;
-				outDegree[A].Add(B);
+				outVtx[A].Add(B);
 			}
 
 			StringBuilder sb = new StringBuilder();
@@ -115,7 +112,7 @@ namespace Alroghtim_CS
 				int cur = pq.Pop();
 				sb.Append(cur + " ");
 				
-				foreach (int nxt in outDegree[cur])
+				foreach (int nxt in outVtx[cur])
 				{
 					inDegree[nxt]--;
 					if (inDegree[nxt] == 0)
@@ -123,8 +120,7 @@ namespace Alroghtim_CS
 				}
 			}
 			sb = sb.Remove(sb.Length - 1, 1);
-			string ret = sb.ToString();
-			Console.WriteLine(ret);
+			Console.WriteLine(sb.ToString());
 		}
 
 	}
