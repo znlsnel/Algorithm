@@ -3,23 +3,19 @@ using System.Collections.Generic;
 
 public class Solution 
 {
-    const int MAX = 999999999;
-    int answer = 999999999;
+    int answer = Int32.MaxValue;
     
-    HashSet<(int, int, int)> dp = new HashSet<(int, int, int)>();
+    HashSet<(int, int, int)> visited = new HashSet<(int, int, int)>();
         
-    int N, M, TotalA = 0, TotalB=0;
+    int N, M;
     public void DFS(int[,] info, int A = 0, int B = 0, int idx = 0)
     {
-        if (A >= answer)
+        if (A >= answer || visited.Contains((A, B, idx)))
             return;
         
-        if (dp.Contains((A, B, idx)))
-            return;
+        visited.Add((A, B, idx));
         
-        dp.Add((A, B, idx));
-        
-        if (idx == info.GetLength(0) || TotalB <= B)
+        if (idx == info.GetLength(0))
         {
             answer = Math.Min(answer, A);
             return;
@@ -32,7 +28,6 @@ public class Solution
             DFS(info, A, B + info[idx, 1], idx + 1);
         if (CanA)
             DFS(info, A + info[idx, 0], B, idx + 1);
-        
     }
     
     public int solution(int[,] info, int n, int m) 
@@ -40,19 +35,9 @@ public class Solution
         int size = info.GetLength(0);
         N = n;
         M = m;
-        
-        for (int i = 0; i < size; i++)
-        {
-            TotalA += info[i, 0];
-            TotalB += info[i, 1];
-        }
-        
-        if (TotalB < M)
-            return 0;
-        
+
         DFS(info);
-        
-        
-        return answer == MAX ? -1 : answer;
+
+        return answer == Int32.MaxValue ? -1 : answer;
     }
 }
