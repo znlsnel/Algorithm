@@ -16,12 +16,11 @@ public class Solution
         {
             if (A[idxA] < B[idxB])
             {
-                idxA++;
                 idxB++;
                 answer++;
             }
-            else if (A[idxA] >= B[idxB])
-                idxA++;
+            
+            idxA++;
         }
         
         return answer;
