@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 public class Solution
 {
 	public int solution(int H, int W, List<int> list)
@@ -12,31 +11,24 @@ public class Solution
 		int answer = 0;
 		int maxH = 0;
 
-		Stack<(int, int)> stack = new Stack<(int, int)> ();
+		Stack<int> stack = new Stack<int> ();
 		for (int i = 0; i < list.Count; i++)
 		{
-			if (stack.Count == 0 || stack.Peek().Item2 >= list[i])
-			{
-				stack.Push((i, list[i]));
-				maxH = Math.Max(maxH, list[i]);
-				continue;
-			}
-
 			int h = Math.Min(maxH, list[i]);
 
 			Queue<int> temp = new Queue<int> ();
-			while (stack.Count > 1 && stack.Peek().Item2 < list[i])
+			while (stack.Count > 1 && stack.Peek() < list[i])
 			{
-				int value = stack.Peek().Item2;
+				int value = stack.Peek();
 				answer += Math.Max(0, h - value);
 				stack.Pop();
 				temp.Enqueue(list[i]); 
 			}
 
 			while (temp.Count > 0)
-				stack.Push((i, temp.Dequeue())); 
+				stack.Push(temp.Dequeue()); 
 
-			stack.Push((i, list[i]));
+			stack.Push(list[i]);
 			maxH = Math.Max(maxH, list[i]);
 		}
 		return answer;
