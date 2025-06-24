@@ -12,21 +12,21 @@ public class Solution
 
 	private void DFS(List<string> answer, string str, int num, int total)
 	{
-		if (num >= N+1)
+		if (num == N+1)
 		{
-			if (num == N + 1 && total == 0)
+			if (total == 0) 
 				answer.Add(str);
 			return;
 		}
 
-		DFS(answer, str + "+" + num, num + 1, total + num);
-		DFS(answer, str + "-" + num, num + 1, total - num);
+		DFS(answer, $"{str}+{num}", num + 1, total + num);
+		DFS(answer, $"{str}-{num}", num + 1, total - num);
 
 		if (num < N)
 		{
 			int nxt = num * 10 + (num + 1);
-			DFS(answer, str + "+" + num + " " + (num+1), num + 2, total + nxt);
-			DFS(answer, str + "-" + num + " " + (num+1), num + 2, total - nxt);  
+			DFS(answer, $"{str}+{num} {(num+1)}", num + 2, total + nxt);
+			DFS(answer, $"{str}-{num} {(num + 1)}", num + 2, total - nxt);  
 		}
 	}
 
@@ -42,7 +42,6 @@ public class Solution
 		return string.Join("\n", answer);
 	}
 }
-
 
 class Program
 {
