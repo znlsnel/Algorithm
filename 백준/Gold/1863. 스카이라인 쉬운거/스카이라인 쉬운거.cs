@@ -5,29 +5,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 public class Solution
 {
 	public int solution(int n, List<(int, int)> points)
 	{
 		int answer = 0;
 
-		Stack<(int, int)> stack = new Stack<(int, int)> ();
+		Stack<int> stack = new Stack<int> ();
 
 		for (int i = 0; i < n; i++)
 		{
 			int nxt = points[i].Item2;
 
-			while (stack.Count > 0 && stack.Peek().Item2 > nxt)
+			while (stack.Count > 0 && stack.Peek() > nxt)
 			{
 				answer++;
 				stack.Pop();
 			}
 
-			if (nxt == 0 || stack.Count > 0 && stack.Peek().Item2 == nxt)
+			if (nxt == 0 || stack.Count > 0 && stack.Peek() == nxt)
 				continue;
 
-			stack.Push(points[i]); 
+			stack.Push(points[i].Item2); 
 		}
 		
 
